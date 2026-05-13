@@ -11,10 +11,11 @@ public class Reviewer {
         System.out.println("[Reviewer] " + name + " assignReview");
     }
 
-    public void submitScore(EvaluationManager evaluationManager) {
-        CallTracker.record("Reviewer.submitScore");
-        int score = (int) (Math.random() * 80 + 20);
-        System.out.println("[Reviewer] " + name + " submitScore: " + score);
-        evaluationManager.submitScore(score);
+    // Returns score directly — no dependency on EvaluationManager
+    public int getScore() {
+        CallTracker.record("Reviewer.getScore");
+        int score = (int) (Math.random() * 41 + 60);
+        System.out.println("[Reviewer] " + name + " getScore: " + score);
+        return score;
     }
 }

@@ -19,8 +19,9 @@ public class Database {
         return reviewerList;
     }
 
-    public void saveScore(int score) {
-        CallTracker.record("Database.saveScore");
-        System.out.println("[Database] saveScore: " + score);
+    // Batch save: one call for all scores instead of N individual calls
+    public void saveScores(List<Integer> scores) {
+        CallTracker.record("Database.saveScores");
+        System.out.println("[Database] saveScores (batch): " + scores);
     }
 }
