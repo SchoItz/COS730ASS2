@@ -7,20 +7,17 @@ public class NotificationService {
     }
 
     public void notifyAcceptance() {
-        CallTracker.record("NotificationService.notifyAcceptance");
-        System.out.println("[NotificationService] notifyAcceptance");
+        MetricTracker.record("NotificationService.notifyAcceptance");
         ui.sendNotification("Your submission has been accepted.");
     }
 
     public void notifyRejection() {
-        CallTracker.record("NotificationService.notifyRejection");
-        System.out.println("[NotificationService] notifyRejection");
+        MetricTracker.record("NotificationService.notifyRejection");
         ui.sendNotification("Your submission has been rejected.");
     }
 
     public void notifyRevision() {
-        CallTracker.record("NotificationService.notifyRevision");
-        System.out.println("[NotificationService] notifyRevision");
+        MetricTracker.record("NotificationService.notifyRevision");
         ui.sendNotification("Your submission requires revision.");
     }
 }

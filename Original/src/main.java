@@ -11,12 +11,12 @@ public class main {
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(outFile, false))) {
             pw.println("============================================================");
-            pw.println("  Optimised Implementation - Metrics Report");
+            pw.println("  Original Implementation - Metrics Report");
+            pw.println("  Generated: " + new java.util.Date());
             pw.println("============================================================");
             pw.println();
         } catch (IOException e) {
-            System.err.println("Could not initialise metrics file: " + e.getMessage());
-        }
+            }
 
         long combinedRuntime = 0;
         int combinedInteractions = 0;
@@ -25,15 +25,7 @@ public class main {
             Database.setReviewerCount(n);
             MetricTracker.reset();
 
-            Database database = new Database();
-            Validator validator = new Validator();
-            ReviewerManager reviewerManager = new ReviewerManager(database);
-            EvaluationManager evaluationManager = new EvaluationManager(database);
-            NotificationService notificationService = new NotificationService();
-            SubmissionController controller = new SubmissionController(
-                        validator, database, reviewerManager, evaluationManager, notificationService);
-            UI ui = new UI(controller);
-            controller.setUI(ui);
+            UI ui = new UI();
 
             long start = System.nanoTime();
             String outcome = ui.submitResearchOutput(data);
@@ -58,8 +50,7 @@ public class main {
             pw.println("Combined Total Interactions:          " + combinedInteractions);
             pw.println("============================================================");
         } catch (IOException e) {
-            System.err.println("Could not write combined runtime: " + e.getMessage());
-        }
+                    }
     }
 }
 
