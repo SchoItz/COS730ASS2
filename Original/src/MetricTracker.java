@@ -39,7 +39,7 @@ public class MetricTracker {
 
     public static void appendToFile(String filePath, String label, String outcome) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(filePath, true))) {
-            pw.println("=== Run: " + label + " ===");
+            pw.println("============ Run: " + label + " ============");
             pw.println("Outcome:            " + outcome.toUpperCase());
             pw.println("Total Interactions: " + total());
             pw.println();

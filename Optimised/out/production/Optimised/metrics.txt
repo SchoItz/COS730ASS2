@@ -2,19 +2,19 @@
   Optimised Implementation - Metrics Report
 ============================================================
 
-=== Run: 70 Reviewers ===
+============ Run: 70 Reviewers ============
 Outcome:            REVISION
 Total Interactions: 151
 
-=== Run: 80 Reviewers ===
+============ Run: 80 Reviewers ============
 Outcome:            REVISION
 Total Interactions: 171
 
-=== Run: 90 Reviewers ===
+============ Run: 90 Reviewers ============
 Outcome:            REVISION
 Total Interactions: 191
 
 ============================================================
-Total Runtime: 15 ms
+Total Runtime: 9 ms
 Combined Total Interactions:          513
 ============================================================

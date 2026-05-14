@@ -30,7 +30,7 @@ public class main {
             long start = System.nanoTime();
             String outcome = ui.submitResearchOutput(data);
             long end = System.nanoTime();
-            long ms = (end - start) / 1_000_000;
+            long ms = (end - start) / 1000000;
             combRun += ms;
             combInt += MetricTracker.total();
 
