@@ -3,22 +3,22 @@ import java.util.List;
 
 public class ReviewerManager {
 
-    private Database database;
+    private Database db;
 
-    public ReviewerManager(Database database) {
-        this.database = database;
+    public ReviewerManager(Database db) {
+        this.db = db;
     }
 
     public List<Reviewer> getAvailableReviewers() {
         MetricTracker.record("ReviewerManager.getAvailableReviewers");
-        List<String> reviewerList = database.fetchReviewers();
+        List<String> reviewerList = db.fetchReviewers();
         reviewerList = filterConflicts(reviewerList);
         reviewerList = checkWorkload(reviewerList);
-        List<Reviewer> filteredReviewers = new ArrayList<>();
+        List<Reviewer> filtRev = new ArrayList<>();
         for (String name : reviewerList) {
-            filteredReviewers.add(new Reviewer(name));
+            filtRev.add(new Reviewer(name));
         }
-        return filteredReviewers;
+        return filtRev;
     }
 
     private List<String> filterConflicts(List<String> reviewerList) {

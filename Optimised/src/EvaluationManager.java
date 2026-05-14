@@ -3,10 +3,10 @@ import java.util.List;
 
 public class EvaluationManager {
 
-    private final Database database;
+    private final Database db;
 
-    public EvaluationManager(Database database) {
-        this.database = database;
+    public EvaluationManager(Database db) {
+        this.db = db;
     }
 
     public String evaluateSubmission(List<Reviewer> reviewers) {
@@ -15,7 +15,7 @@ public class EvaluationManager {
         for (Reviewer reviewer : reviewers) {
             scores.add(reviewer.getScore());
         }
-        database.saveScores(scores);
+        db.saveScores(scores);
         return calculateResult(scores);
     }
 

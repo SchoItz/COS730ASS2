@@ -3,23 +3,23 @@ import java.util.List;
 
 public class ReviewerManager {
 
-    private final Database database;
+    private final Database db;
 
-    public ReviewerManager(Database database) {
-        this.database = database;
+    public ReviewerManager(Database db) {
+        this.db = db;
     }
 
     public List<Reviewer> assignReviewers(String[] data) {
         MetricTracker.record("ReviewerManager.assignReviewers");
-        List<String> rawList = database.fetchReviewers();
-        List<String> eligible = filterReviewers(rawList);
-        List<Reviewer> assigned = new ArrayList<>();
-        for (String name : eligible) {
+        List<String> list = db.fetchReviewers();
+        List<String> filteredList = filterReviewers(list);
+        List<Reviewer> reviewerList = new ArrayList<>();
+        for (String name : filteredList) {
             Reviewer r = new Reviewer(name);
             r.assignReview(data);
-            assigned.add(r);
+            reviewerList.add(r);
         }
-        return assigned;
+        return reviewerList;
     }
 
     private List<String> filterReviewers(List<String> reviewerList) {

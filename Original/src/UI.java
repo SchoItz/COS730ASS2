@@ -1,14 +1,14 @@
 public class UI {
 
-    private SubmissionController submissionController;
+    private SubmissionController subCon;
 
     public UI() {
-        this.submissionController = new SubmissionController(this);
+        this.subCon = new SubmissionController(this);
     }
 
     public String submitResearchOutput(String[] data) {
         MetricTracker.record("UI.submitResearchOutput");
-        return submissionController.submit(data);
+        return subCon.submit(data);
     }
 
     public void returnError(String error) {

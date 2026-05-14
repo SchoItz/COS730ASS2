@@ -3,10 +3,10 @@ import java.util.List;
 
 public class Database {
 
-    private static int reviewerCount = 3;
+    private static int revCount = 3;
 
     public static void setReviewerCount(int n) {
-        reviewerCount = n;
+        revCount = n;
     }
 
     public String saveSubmission(String[] data) {
@@ -17,7 +17,7 @@ public class Database {
     public List<String> fetchReviewers() {
         MetricTracker.record("Database.fetchReviewers");
         List<String> reviewerList = new ArrayList<>();
-        for (int i = 0; i < reviewerCount; i++) {
+        for (int i = 0; i < revCount; i++) {
             reviewerList.add("Reviewer_" + (char) ('A' + i));
         }
         return reviewerList;

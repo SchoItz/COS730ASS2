@@ -3,22 +3,22 @@ import java.util.List;
 public class SubmissionController {
 
     private UI ui;
-    private final Validator validator;
-    private final Database database;
-    private final ReviewerManager reviewerManager;
-    private final EvaluationManager evaluationManager;
-    private final NotificationService notificationService;
+    private final Validator val;
+    private final Database db;
+    private final ReviewerManager revMan;
+    private final EvaluationManager evalMan;
+    private final NotificationService notify;
 
-    public SubmissionController(Validator validator, Database database,
-                                ReviewerManager reviewerManager,
-                                EvaluationManager evaluationManager,
-                                NotificationService notificationService) {
+    public SubmissionController(Validator val, Database db,
+                                ReviewerManager revMan,
+                                EvaluationManager evalMan,
+                                NotificationService notify) {
         this.ui = null;
-        this.validator = validator;
-        this.database = database;
-        this.reviewerManager = reviewerManager;
-        this.evaluationManager = evaluationManager;
-        this.notificationService = notificationService;
+        this.val = val;
+        this.db = db;
+        this.revMan = revMan;
+        this.evalMan = evalMan;
+        this.notify = notify;
     }
 
     public void setUI(UI ui) {
@@ -28,20 +28,20 @@ public class SubmissionController {
     public String submit(String[] data) {
         MetricTracker.record("SubmissionController.submit");
 
-        ValidationResult result = validator.validateFormat(data);
+        ValidationResult result = val.validateFormat(data);
         if (!result.isValid()) {
             if (ui != null) ui.displayError(result.getReason());
             else System.out.println("[SubmissionController] Error: " + result.getReason());
             return "invalid";
         }
 
-        String confirmation = database.saveSubmission(data);
+        String confrim = db.saveSubmission(data);
 
-        List<Reviewer> assigned = reviewerManager.assignReviewers(data);
+        List<Reviewer> assign = revMan.assignReviewers(data);
 
-        String outcome = evaluationManager.evaluateSubmission(assigned);
+        String outcome = evalMan.evaluateSubmission(assign);
 
-        notificationService.notify(outcome);
+        notify.notify(outcome);
         return outcome;
     }
 }

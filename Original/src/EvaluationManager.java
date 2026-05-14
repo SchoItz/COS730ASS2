@@ -3,13 +3,13 @@ import java.util.List;
 
 public class EvaluationManager {
 
-    Database database;
-    NotificationService notificationService;
+    Database db;
+    NotificationService notify;
     private List<Integer> scores;
 
-    public EvaluationManager(Database database, NotificationService notificationService) {
-        this.database = database;
-        this.notificationService = notificationService;
+    public EvaluationManager(Database db, NotificationService notify) {
+        this.db = db;
+        this.notify = notify;
         this.scores = new ArrayList<>();
     }
 
@@ -23,11 +23,11 @@ public class EvaluationManager {
         checkConsensus();
         String outcome = applyRules();
         if (outcome.equals("accepted")) {
-            notificationService.notifyAcceptance();
+            notify.notifyAcceptance();
         } else if (outcome.equals("rejected")) {
-            notificationService.notifyRejection();
+            notify.notifyRejection();
         } else {
-            notificationService.notifyRevision();
+            notify.notifyRevision();
         }
         return outcome;
     }
@@ -35,7 +35,7 @@ public class EvaluationManager {
     public void submitScore(int score) {
         MetricTracker.record("EvaluationManager.submitScore");
         scores.add(score);
-        database.saveScore(score);
+        db.saveScore(score);
     }
 
     private void calculateAverage() {

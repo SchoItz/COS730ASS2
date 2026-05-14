@@ -5,11 +5,11 @@ import java.io.PrintWriter;
 public class main {
 
     public static void main(String[] args) {
-        int[] reviewerCounts = {70, 80, 90};
-        String outFile = "src/metrics.txt";
+        int[] revCounts = {70, 80, 90};
+        String metFile = "src/metrics.txt";
         String[] data = {"Francois", "Scholtz", "ResearchTitle", "Content"};
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(outFile, false))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(metFile, false))) {
             pw.println("============================================================");
             pw.println("  Optimised Implementation - Metrics Report");
             pw.println("============================================================");
@@ -18,20 +18,20 @@ public class main {
             System.err.println("Could not initialise metrics file: " + e.getMessage());
         }
 
-        long combinedRuntime = 0;
-        int combinedInteractions = 0;
+        long combRun = 0;
+        int combInt = 0;
 
-        for (int n : reviewerCounts) {
+        for (int n : revCounts) {
             Database.setReviewerCount(n);
             MetricTracker.reset();
 
-            Database database = new Database();
-            Validator validator = new Validator();
-            ReviewerManager reviewerManager = new ReviewerManager(database);
-            EvaluationManager evaluationManager = new EvaluationManager(database);
-            NotificationService notificationService = new NotificationService();
+            Database db = new Database();
+            Validator val = new Validator();
+            ReviewerManager revMan = new ReviewerManager(db);
+            EvaluationManager evalMan = new EvaluationManager(db);
+            NotificationService notify = new NotificationService();
             SubmissionController controller = new SubmissionController(
-                        validator, database, reviewerManager, evaluationManager, notificationService);
+                        val, db, revMan, evalMan, notify);
             UI ui = new UI(controller);
             controller.setUI(ui);
 
@@ -39,23 +39,23 @@ public class main {
             String outcome = ui.submitResearchOutput(data);
             long end = System.nanoTime();
             long ms = (end - start) / 1_000_000;
-            combinedRuntime += ms;
-            combinedInteractions += MetricTracker.total();
+            combRun += ms;
+            combInt += MetricTracker.total();
 
             String label = n + " Reviewers";
 
-            MetricTracker.appendToFile(outFile, label, outcome);
+            MetricTracker.appendToFile(metFile, label, outcome);
         }
 
         System.out.println("============================================================");
-        System.out.println("Total Runtime: " + combinedRuntime + " ms");
-        System.out.println("Combined Total Interactions:          " + combinedInteractions);
+        System.out.println("Total Runtime: " + combRun + " ms");
+        System.out.println("Combined Total Interactions:          " + combInt);
         System.out.println("============================================================");
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(outFile, true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(metFile, true))) {
             pw.println("============================================================");
-            pw.println("Total Runtime: " + combinedRuntime + " ms");
-            pw.println("Combined Total Interactions:          " + combinedInteractions);
+            pw.println("Total Runtime: " + combRun + " ms");
+            pw.println("Combined Total Interactions:          " + combInt);
             pw.println("============================================================");
         } catch (IOException e) {
             System.err.println("Could not write combined runtime: " + e.getMessage());

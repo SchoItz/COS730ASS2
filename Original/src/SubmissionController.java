@@ -3,32 +3,32 @@ import java.util.List;
 public class SubmissionController {
 
     private UI ui;
-    private Validator validator;
-    private Database database;
-    private ReviewerManager reviewerManager;
-    private EvaluationManager evaluationManager;
+    private Validator val;
+    private Database db;
+    private ReviewerManager revMan;
+    private EvaluationManager evalMman;
 
     public SubmissionController(UI ui) {
         this.ui = ui;
-        this.validator = new Validator();
-        this.database = new Database();
-        NotificationService notificationService = new NotificationService(ui);
-        this.reviewerManager = new ReviewerManager(this.database);
-        this.evaluationManager = new EvaluationManager(this.database, notificationService);
+        this.val = new Validator();
+        this.db = new Database();
+        NotificationService msg = new NotificationService(ui);
+        this.revMan = new ReviewerManager(this.db);
+        this.evalMman = new EvaluationManager(this.db, msg);
     }
 
     public String submit(String[] data) {
         MetricTracker.record("SubmissionController.submit");
-        boolean valid = validator.validateFormat(data);
+        boolean valid = val.validateFormat(data);
         if (!valid) {
             ui.returnError("Invalid submission format");
             return "invalid";
         }
-        String confirmation = database.saveSubmission(data);
-        List<Reviewer> filteredReviewers = reviewerManager.getAvailableReviewers();
-        for (Reviewer reviewer : filteredReviewers) {
+        String confirmation = db.saveSubmission(data);
+        List<Reviewer> filtRev = revMan.getAvailableReviewers();
+        for (Reviewer reviewer : filtRev) {
             reviewer.assignReview(data);
         }
-        return evaluationManager.startEvaluation(filteredReviewers);
+        return evalMman.startEvaluation(filtRev);
     }
 }

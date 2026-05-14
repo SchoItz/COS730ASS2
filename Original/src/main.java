@@ -5,11 +5,11 @@ import java.io.PrintWriter;
 public class main {
 
     public static void main(String[] args) {
-        int[] reviewerCounts = {70, 80, 90};
-        String outFile = "src/metrics.txt";
+        int[] revCount = {70, 80, 90};
+        String metFile = "src/metrics.txt";
         String[] data = {"Francois", "Scholtz", "ResearchTitle", "Content"};
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(outFile, false))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(metFile, false))) {
             pw.println("============================================================");
             pw.println("  Original Implementation - Metrics Report");
             pw.println("  Generated: " + new java.util.Date());
@@ -18,10 +18,10 @@ public class main {
         } catch (IOException e) {
             }
 
-        long combinedRuntime = 0;
-        int combinedInteractions = 0;
+        long combRun = 0;
+        int combInt = 0;
 
-        for (int n : reviewerCounts) {
+        for (int n : revCount) {
             Database.setReviewerCount(n);
             MetricTracker.reset();
 
@@ -31,23 +31,23 @@ public class main {
             String outcome = ui.submitResearchOutput(data);
             long end = System.nanoTime();
             long ms = (end - start) / 1_000_000;
-            combinedRuntime += ms;
-            combinedInteractions += MetricTracker.total();
+            combRun += ms;
+            combInt += MetricTracker.total();
 
             String label = n + " Reviewers";
 
-            MetricTracker.appendToFile(outFile, label, outcome);
+            MetricTracker.appendToFile(metFile, label, outcome);
         }
 
         System.out.println("============================================================");
-        System.out.println("Total Runtime: " + combinedRuntime + " ms");
-        System.out.println("Combined Total Interactions:          " + combinedInteractions);
+        System.out.println("Total Runtime: " + combRun + " ms");
+        System.out.println("Combined Total Interactions:          " + combInt);
         System.out.println("============================================================");
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(outFile, true))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(metFile, true))) {
             pw.println("============================================================");
-            pw.println("Total Runtime: " + combinedRuntime + " ms");
-            pw.println("Combined Total Interactions:          " + combinedInteractions);
+            pw.println("Total Runtime: " + combRun + " ms");
+            pw.println("Combined Total Interactions:          " + combInt);
             pw.println("============================================================");
         } catch (IOException e) {
                     }
